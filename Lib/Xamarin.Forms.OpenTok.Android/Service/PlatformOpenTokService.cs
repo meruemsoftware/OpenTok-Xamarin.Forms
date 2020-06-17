@@ -151,9 +151,9 @@ namespace Xamarin.Forms.OpenTok.Android.Service
             return !shouldGrantPermissions;
         }
 
-        public override Task<bool> SendMessageAsync(string message)
+        public override Task<bool> SendMessageAsync(string signalType, string message)
         {
-            Session.SendSignal(string.Empty, message);
+            Session.SendSignal(signalType, message);
             return Task.FromResult(true);
         }
 

@@ -84,7 +84,7 @@ namespace Xamarin.Forms.OpenTok.Service
 
         public abstract void CycleCamera();
 
-        public abstract Task<bool> SendMessageAsync(string message);
+        public abstract Task<bool> SendMessageAsync(string signalType, string message);
 
         protected void RaiseError(string message) => Error?.Invoke(message);
 

@@ -131,9 +131,9 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
 
         public override bool CheckPermissions() => true;
 
-        public override Task<bool> SendMessageAsync(string message)
+        public override Task<bool> SendMessageAsync(string signalType, string message)
         {
-            Session.SignalWithType(string.Empty, message, null, out OTError error);
+            Session.SignalWithType(signalType, message, null, out OTError error);
             using (error)
             {
                 return Task.FromResult(error == null);
