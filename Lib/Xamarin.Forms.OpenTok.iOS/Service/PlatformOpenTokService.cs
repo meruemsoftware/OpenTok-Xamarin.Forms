@@ -288,7 +288,12 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
             => IsPublishingStarted = true;
 
         private void OnSignalReceived(object sender, OTSessionDelegateSignalEventArgs e)
-            => RaiseMessageReceived(e.StringData);
+        {
+            if (!(IgnoreSentMessages && e.Connection.ConnectionId == Session.Connection.ConnectionId))
+            {
+                RaiseMessageReceived(e.StringData);
+            }
+        }
 
         private void ClearSubscriber(OTSubscriber subscriberKit)
         {

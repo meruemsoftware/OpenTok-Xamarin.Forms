@@ -76,6 +76,12 @@ namespace Xamarin.Forms.OpenTok.Service
             set => SetValue(value);
         }
 
+        public bool IgnoreSentMessages
+        {
+            get => GetValue(false);
+            set => SetValue(value);
+        }
+
         public abstract bool CheckPermissions();
 
         public abstract bool TryStartSession();

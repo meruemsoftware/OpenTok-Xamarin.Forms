@@ -31,6 +31,8 @@ namespace Xamarin.Forms.OpenTok.Service
 
         bool IsPublishingStarted { get; set; }
 
+        bool IgnoreSentMessages { get; set; }
+
         bool CheckPermissions();
 
         bool TryStartSession();
