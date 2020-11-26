@@ -23,6 +23,7 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
 
         private PlatformOpenTokService()
         {
+            _subscriberStreamIds.CollectionChanged += OnSubscriberStreamIdsCollectionChanged;
             PropertyChanged += OnPropertyChanged;
             StreamIdCollection = new ReadOnlyObservableCollection<string>(_subscriberStreamIds);
             Subscribers = new ReadOnlyCollection<OTSubscriber>(_subscribers);
@@ -91,17 +92,7 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
                     _subscribers.Clear();
                     _subscriberStreamIds.Clear();
 
-                    if (PublisherKit != null)
-                    {
-                        using (PublisherKit)
-                        {
-                            PublisherKit.PublishAudio = false;
-                            PublisherKit.PublishVideo = false;
-                            PublisherKit.StreamCreated -= OnPublisherStreamCreated;
-                            Session.Unpublish(PublisherKit);
-                        }
-                        PublisherKit = null;
-                    }
+                    ClearPublisher();
 
                     RaisePublisherUpdated()
                         .RaiseSubscriberUpdated();
@@ -150,6 +141,9 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
                 case nameof(IsAudioPublishingEnabled):
                     UpdatePublisherProperty(p => p.PublishAudio = IsAudioPublishingEnabled);
                     return;
+                case nameof(PublisherVideoType):
+                    OnDidConnect(this, EventArgs.Empty);
+                    return;
                 case nameof(IsVideoSubscriptionEnabled):
                     UpdateSubscriberProperty(s => s.SubscribeToVideo = IsVideoSubscriptionEnabled);
                     return;
@@ -193,33 +187,42 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
 
         private void OnDidConnect(object sender, EventArgs e)
         {
-            if (Session == null || PublisherKit != null)
+            if (Session == null)
             {
                 return;
             }
+
+            ClearPublisher();
 
             PublisherKit = new OTPublisher(null, new OTPublisherSettings
             {
                 Name = "XamarinOpenTok",
                 CameraFrameRate = OTCameraCaptureFrameRate.OTCameraCaptureFrameRate15FPS,
-                CameraResolution = OTCameraCaptureResolution.High
+                CameraResolution = OTCameraCaptureResolution.High,
+                VideoTrack = Permissions.HasFlag(OpenTokPermission.Camera),
+                AudioTrack = Permissions.HasFlag(OpenTokPermission.RecordAudio)
             })
             {
                 PublishVideo = IsVideoPublishingEnabled,
-                PublishAudio = IsAudioPublishingEnabled
+                PublishAudio = IsAudioPublishingEnabled,
+                AudioFallbackEnabled = PublisherVideoType == OpenTokPublisherVideoType.Camera,
+                VideoType = PublisherVideoType == OpenTokPublisherVideoType.Camera
+                    ? OTPublisherKitVideoType.Camera
+                    : OTPublisherKitVideoType.Screen
             };
             PublisherKit.StreamCreated += OnPublisherStreamCreated;
-
             Session.Publish(PublisherKit);
             RaisePublisherUpdated();
         }
 
         private void OnStreamCreated(object sender, OTSessionDelegateStreamEventArgs e)
         {
-            if (Session == null || _subscribers.Any(x => x.Stream?.StreamId == e.Stream?.StreamId))
+            if (Session == null)
             {
                 return;
             }
+
+            DestroyStream(e.Stream?.StreamId);
 
             var subscriberKit = new OTSubscriber(e.Stream, null)
             {
@@ -239,17 +242,7 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
         }
 
         private void OnStreamDestroyed(object sender, OTSessionDelegateStreamEventArgs e)
-        {
-            var streamId = e.Stream.StreamId;
-            var subscriberKit = _subscribers.FirstOrDefault(x => x.Stream?.StreamId == streamId);
-            if (subscriberKit != null)
-            {
-                ClearSubscriber(subscriberKit);
-                _subscribers.Remove(subscriberKit);
-            }
-            _subscriberStreamIds.Remove(streamId);
-            RaiseSubscriberUpdated();
-        }
+            => DestroyStream(e.Stream?.StreamId);
 
         private void OnError(object sender, OTSessionDelegateErrorEventArgs e)
         {
@@ -271,6 +264,18 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
 
         private void OnSubscriberDisconnected(object sender, EventArgs e)
             => RaisePublisherUpdated().RaiseSubscriberUpdated();
+
+        private void DestroyStream(string streamId)
+        {
+            var subscriberKit = _subscribers.FirstOrDefault(x => x.Stream?.StreamId == streamId);
+            if (subscriberKit != null)
+            {
+                ClearSubscriber(subscriberKit);
+                _subscribers.Remove(subscriberKit);
+            }
+            _subscriberStreamIds.Remove(streamId);
+            RaiseSubscriberUpdated();
+        }
 
         private PlatformOpenTokService RaiseSubscriberUpdated()
         {
@@ -306,7 +311,25 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
                 subscriberKit.VideoDataReceived -= OnSubscriberVideoDataReceived;
                 subscriberKit.VideoEnabled -= OnSubscriberVideoEnabled;
                 subscriberKit.VideoDisabled -= OnSubscriberVideoDisabled;
+                Session.Unsubscribe(subscriberKit);
             }
+        }
+
+        private void ClearPublisher()
+        {
+            if (PublisherKit == null)
+            {
+                return;
+            }
+
+            using (PublisherKit)
+                {
+                    PublisherKit.PublishAudio = false;
+                    PublisherKit.PublishVideo = false;
+                    PublisherKit.StreamCreated -= OnPublisherStreamCreated;
+                    Session.Unpublish(PublisherKit);
+                }
+                PublisherKit = null;
         }
     }
 }

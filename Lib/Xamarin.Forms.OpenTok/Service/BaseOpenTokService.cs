@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace Xamarin.Forms.OpenTok.Service
 {
@@ -12,15 +13,29 @@ namespace Xamarin.Forms.OpenTok.Service
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public abstract ReadOnlyObservableCollection<string> StreamIdCollection { get; }
-
         public event Action<string> Error;
 
         public event Action<string> MessageReceived;
 
+        public event NotifyCollectionChangedEventHandler StreamIdCollectionChanged;
+
+        public abstract ReadOnlyObservableCollection<string> StreamIdCollection { get; }
+
         private readonly object _propertiesLocker = new object();
 
         private readonly Dictionary<string, object> _properties = new Dictionary<string, object>();
+
+        public OpenTokPermission Permissions
+        {
+            get => GetValue(OpenTokPermission.All);
+            set => SetValue(value);
+        }
+
+        public OpenTokPublisherVideoType PublisherVideoType
+        {
+            get => GetValue(OpenTokPublisherVideoType.Camera);
+            set => SetValue(value);
+        }
 
         public bool IsVideoPublishingEnabled
         {
@@ -97,6 +112,9 @@ namespace Xamarin.Forms.OpenTok.Service
         protected void RaiseMessageReceived(string message) 
             => MessageReceived?.Invoke(message);
 
+        protected void OnSubscriberStreamIdsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+            => StreamIdCollectionChanged?.Invoke(sender, e);
+
         private T GetValue<T>(T defaultValue, [CallerMemberName] string name = null)
         {
             lock (_propertiesLocker)
@@ -105,11 +123,11 @@ namespace Xamarin.Forms.OpenTok.Service
             }
         }
 
-        private void SetValue<T>(T value, [CallerMemberName] string name = null) where T: IEquatable<T>
+        private void SetValue<T>(T value, [CallerMemberName] string name = null)
         {
             lock (_propertiesLocker)
             {
-                if (_properties.ContainsKey(name) && ((T)_properties[name]).Equals(value))
+                if (_properties.ContainsKey(name) && EqualityComparer<T>.Default.Equals((T)_properties[name], value))
                 {
                     return;
                 }
