@@ -232,7 +232,7 @@ namespace Xamarin.Forms.OpenTok.Android.Service
                 .Resolution(Publisher.CameraCaptureResolution.High)
                 .VideoTrack(Permissions.HasFlag(OpenTokPermission.Camera))
                 .AudioTrack(Permissions.HasFlag(OpenTokPermission.RecordAudio))
-                .Name("XamarinOpenTok"))
+                .Name(PublisherName))
             {
                 PublisherKit = builder.Build();
                 PublisherKit.PublishVideo = IsVideoPublishingEnabled;

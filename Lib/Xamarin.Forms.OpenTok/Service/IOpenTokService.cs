@@ -34,6 +34,8 @@ namespace Xamarin.Forms.OpenTok.Service
 
         string UserToken { get; set; }
 
+        string PublisherName { get; set; }
+
         bool IsSessionStarted { get; set; }
 
         bool IsPublishingStarted { get; set; }

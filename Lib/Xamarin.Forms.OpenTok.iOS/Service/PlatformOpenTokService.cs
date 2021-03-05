@@ -196,7 +196,7 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
 
             PublisherKit = new OTPublisher(null, new OTPublisherSettings
             {
-                Name = "XamarinOpenTok",
+                Name = PublisherName,
                 CameraFrameRate = OTCameraCaptureFrameRate.OTCameraCaptureFrameRate15FPS,
                 CameraResolution = OTCameraCaptureResolution.High,
                 VideoTrack = Permissions.HasFlag(OpenTokPermission.Camera),

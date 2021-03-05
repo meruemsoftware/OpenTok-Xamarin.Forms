@@ -79,6 +79,12 @@ namespace Xamarin.Forms.OpenTok.Service
             set => SetValue(value);
         }
 
+        public string PublisherName
+        {
+            get => GetValue(string.Empty);
+            set => SetValue(value);
+        }
+
         public bool IsSessionStarted
         {
             get => GetValue(false);
