@@ -8,6 +8,7 @@ using Foundation;
 using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Xamarin.Forms.OpenTok.iOS.Service
 {
@@ -20,7 +21,12 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
         private readonly object _sessionLocker = new object();
         private readonly ObservableCollection<string> _subscriberStreamIds = new ObservableCollection<string>();
         private readonly Collection<OTSubscriber> _subscribers = new Collection<OTSubscriber>();
-
+        private static readonly Dictionary<CameraResolution, OTCameraCaptureResolution> cameraResolutions = new Dictionary<CameraResolution, OTCameraCaptureResolution>()
+        {
+            { CameraResolution.Low, OTCameraCaptureResolution.Low },
+            { CameraResolution.Medium, OTCameraCaptureResolution.Medium },
+            { CameraResolution.High, OTCameraCaptureResolution.High }
+        };
         private PlatformOpenTokService()
         {
             _subscriberStreamIds.CollectionChanged += OnSubscriberStreamIdsCollectionChanged;
@@ -198,7 +204,7 @@ namespace Xamarin.Forms.OpenTok.iOS.Service
             {
                 Name = PublisherName,
                 CameraFrameRate = OTCameraCaptureFrameRate.OTCameraCaptureFrameRate15FPS,
-                CameraResolution = OTCameraCaptureResolution.High,
+                CameraResolution = cameraResolutions[PublisherCameraResolution],
                 VideoTrack = Permissions.HasFlag(OpenTokPermission.Camera),
                 AudioTrack = Permissions.HasFlag(OpenTokPermission.RecordAudio)
             })

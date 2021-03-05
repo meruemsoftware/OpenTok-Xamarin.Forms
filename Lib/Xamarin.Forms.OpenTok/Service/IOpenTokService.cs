@@ -36,6 +36,8 @@ namespace Xamarin.Forms.OpenTok.Service
 
         string PublisherName { get; set; }
 
+        CameraResolution PublisherCameraResolution { get; set; }
+
         bool IsSessionStarted { get; set; }
 
         bool IsPublishingStarted { get; set; }

@@ -24,6 +24,12 @@ namespace Xamarin.Forms.OpenTok.Android.Service
         private readonly object _sessionLocker = new object();
         private readonly ObservableCollection<string> _subscriberStreamIds = new ObservableCollection<string>();
         private readonly Collection<SubscriberKit> _subscribers = new Collection<SubscriberKit>();
+        private static readonly Dictionary<CameraResolution, Publisher.CameraCaptureResolution> cameraResolutions = new Dictionary<CameraResolution, Publisher.CameraCaptureResolution>()
+        {
+            { CameraResolution.Low, Publisher.CameraCaptureResolution.Low },
+            { CameraResolution.Medium, Publisher.CameraCaptureResolution.Medium },
+            { CameraResolution.High, Publisher.CameraCaptureResolution.High }
+        };
 
         private PlatformOpenTokService()
         {
@@ -229,7 +235,7 @@ namespace Xamarin.Forms.OpenTok.Android.Service
             ClearPublisher();
 
             using (var builder = new Publisher.Builder(CrossCurrentActivity.Current.AppContext)
-                .Resolution(Publisher.CameraCaptureResolution.High)
+                .Resolution(cameraResolutions[PublisherCameraResolution])
                 .VideoTrack(Permissions.HasFlag(OpenTokPermission.Camera))
                 .AudioTrack(Permissions.HasFlag(OpenTokPermission.RecordAudio))
                 .Name(PublisherName))

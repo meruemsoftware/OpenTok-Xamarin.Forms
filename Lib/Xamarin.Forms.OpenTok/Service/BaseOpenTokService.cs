@@ -85,6 +85,12 @@ namespace Xamarin.Forms.OpenTok.Service
             set => SetValue(value);
         }
 
+        public CameraResolution PublisherCameraResolution
+        {
+            get => GetValue(CameraResolution.Medium);
+            set => SetValue(value);
+        }
+
         public bool IsSessionStarted
         {
             get => GetValue(false);
