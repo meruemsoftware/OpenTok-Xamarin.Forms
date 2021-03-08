@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -97,18 +97,18 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\drawable-hdpi\" />
     <Folder Include="Resources\drawable-xhdpi\" />
     <Folder Include="Resources\drawable-xxhdpi\" />
     <Folder Include="Resources\drawable-xxxhdpi\" />
+    <Folder Include="Resources\drawable\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Lib\Xamarin.Forms.OpenTok\Xamarin.Forms.OpenTok.csproj">
+    <ProjectReference Include="..\Lib\Xamarin.Forms.Vonage\Xamarin.Forms.Vonage.csproj">
       <Project>{C2457FED-C235-4A39-8728-1E78A1C01DC4}</Project>
       <Name>Xamarin.Forms.OpenTok</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Lib\Xamarin.Forms.OpenTok.Android\Xamarin.Forms.OpenTok.Android.csproj">
+    <ProjectReference Include="..\Lib\Xamarin.Forms.Vonage.Android\Xamarin.Forms.Vonage.Android.csproj">
       <Project>{81B7D386-5D4D-42E7-9F60-93E6F1D1FA0C}</Project>
       <Name>Xamarin.Forms.OpenTok.Android</Name>
     </ProjectReference>
@@ -117,5 +117,5 @@
       <Name>Xamarin.Forms.OpenTok.Sample</Name>
     </ProjectReference>
   </ItemGroup>
- <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

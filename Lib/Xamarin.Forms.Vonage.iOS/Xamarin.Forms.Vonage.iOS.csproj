@@ -75,7 +75,7 @@
     <Compile Include="OpenTokViewRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Xamarin.Forms.OpenTok\Xamarin.Forms.Vonage.csproj">
+    <ProjectReference Include="..\Xamarin.Forms.Vonage\Xamarin.Forms.Vonage.csproj">
       <Project>{C2457FED-C235-4A39-8728-1E78A1C01DC4}</Project>
       <Name>Xamarin.Forms.Vonage</Name>
     </ProjectReference>
