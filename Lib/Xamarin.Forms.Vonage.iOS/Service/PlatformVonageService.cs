@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace Xamarin.Forms.Vonage.iOS.Service
 {
     [Preserve(AllMembers = true)]
-    public sealed class PlatformOpenTokService : BaseVonageService
+    public sealed class PlatformVonageService : BaseVonageService
     {
         public event Action PublisherUpdated;
         public event Action SubscriberUpdated;
@@ -27,7 +27,7 @@ namespace Xamarin.Forms.Vonage.iOS.Service
             { CameraResolution.Medium, OTCameraCaptureResolution.Medium },
             { CameraResolution.High, OTCameraCaptureResolution.High }
         };
-        private PlatformOpenTokService()
+        private PlatformVonageService()
         {
             _subscriberStreamIds.CollectionChanged += OnSubscriberStreamIdsCollectionChanged;
             PropertyChanged += OnPropertyChanged;
@@ -35,7 +35,7 @@ namespace Xamarin.Forms.Vonage.iOS.Service
             Subscribers = new ReadOnlyCollection<OTSubscriber>(_subscribers);
         }
 
-        public static PlatformOpenTokService Instance => CrossVonage.Current as PlatformOpenTokService;
+        public static PlatformVonageService Instance => CrossVonage.Current as PlatformVonageService;
 
         public override ReadOnlyObservableCollection<string> StreamIdCollection { get; }
         public ReadOnlyCollection<OTSubscriber> Subscribers { get; }
@@ -44,9 +44,9 @@ namespace Xamarin.Forms.Vonage.iOS.Service
 
         public static void Init()
         {
-            OpenTokPublisherViewRenderer.Preserve();
-            OpenTokSubscriberViewRenderer.Preserve();
-            CrossVonage.Init(() => new PlatformOpenTokService());
+            VonagePublisherViewRenderer.Preserve();
+            VonageSubscriberView.Preserve();
+            CrossVonage.Init(() => new PlatformVonageService());
         }
 
         public override bool TryStartSession()
@@ -283,13 +283,13 @@ namespace Xamarin.Forms.Vonage.iOS.Service
             RaiseSubscriberUpdated();
         }
 
-        private PlatformOpenTokService RaiseSubscriberUpdated()
+        private PlatformVonageService RaiseSubscriberUpdated()
         {
             SubscriberUpdated?.Invoke();
             return this;
         }
 
-        private PlatformOpenTokService RaisePublisherUpdated()
+        private PlatformVonageService RaisePublisherUpdated()
         {
             PublisherUpdated?.Invoke();
             return this;

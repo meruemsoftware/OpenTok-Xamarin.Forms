@@ -7,28 +7,28 @@ using Foundation;
 using System.ComponentModel;
 using System.Linq;
 
-[assembly: ExportRenderer(typeof(VonageSubscriberView), typeof(OpenTokSubscriberViewRenderer))]
+[assembly: ExportRenderer(typeof(Xamarin.Forms.Vonage.VonageSubscriberView), typeof(Xamarin.Forms.Vonage.iOS.VonageSubscriberView))]
 namespace Xamarin.Forms.Vonage.iOS
 {
     [Preserve(AllMembers = true)]
-    public class OpenTokSubscriberViewRenderer : OpenTokViewRenderer
+    public class VonageSubscriberView : VonageViewRenderer
     {
         public static void Preserve() { }
 
-        protected VonageSubscriberView OpenTokSubscriberView => OpenTokView as VonageSubscriberView;
+        protected Vonage.VonageSubscriberView OpenTokSubscriberView => VonageView as Vonage.VonageSubscriberView;
 
         protected override UIView GetNativeView()
         {
             var streamId = OpenTokSubscriberView?.StreamId;
-            var subscribers = PlatformOpenTokService.Instance.Subscribers;
+            var subscribers = PlatformVonageService.Instance.Subscribers;
             return (streamId != null
                 ? subscribers.FirstOrDefault(x => x.Stream?.StreamId == streamId)
                 : subscribers.FirstOrDefault())?.View;
         }
 
-        protected override void SubscribeResetControl() => PlatformOpenTokService.Instance.SubscriberUpdated += ResetControl;
+        protected override void SubscribeResetControl() => PlatformVonageService.Instance.SubscriberUpdated += ResetControl;
 
-        protected override void UnsubscribeResetControl() => PlatformOpenTokService.Instance.SubscriberUpdated -= ResetControl;
+        protected override void UnsubscribeResetControl() => PlatformVonageService.Instance.SubscriberUpdated -= ResetControl;
 
         protected override void OnElementPropertyChanged(object sender, PropertyChangedEventArgs e)
         {

@@ -5,11 +5,11 @@ using Foundation;
 namespace Xamarin.Forms.Vonage.iOS
 {
     [Preserve(AllMembers = true)]
-    public abstract class OpenTokViewRenderer : ViewRenderer
+    public abstract class VonageViewRenderer : ViewRenderer
     {
         private UIView _defaultView;
 
-        protected VonageView OpenTokView => Element as VonageView;
+        protected VonageView VonageView => Element as VonageView;
 
         protected virtual UIView DefaultView => _defaultView ?? (_defaultView = new UIView());
 
@@ -33,7 +33,7 @@ namespace Xamarin.Forms.Vonage.iOS
         protected void ResetControl()
         {
             var view = GetNativeView();
-            OpenTokView?.SetIsVideoViewRunning(view != null);
+            VonageView?.SetIsVideoViewRunning(view != null);
             view = view ?? DefaultView;
             if (Control != view)
             {
