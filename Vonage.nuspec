@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Xamarin.Forms.Vonage</id>
-    <version>1.3.4-MERUEM</version>
+    <version>1.3.5-MERUEM</version>
     <title>Xamarin.Forms.Vonage</title>
     <authors>Andrei Misiukevich</authors>
     <owners>Andrei Misiukevich</owners>
