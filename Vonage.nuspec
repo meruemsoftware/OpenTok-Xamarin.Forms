@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>Xamarin.Forms.Vonage</id>
+    <version>1.3.4-MERUEM</version>
+    <title>Xamarin.Forms.Vonage</title>
+    <authors>Andrei Misiukevich</authors>
+    <owners>Andrei Misiukevich</owners>
+    <license type="expression">MIT</license>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <projectUrl>https://github.com/AndreiMisiukevich/Vonage-Xamarin.Forms</projectUrl>
+    <icon>images\logo.png</icon>
+    <description>Vonage for Xamarin.Forms</description>
+    <summary>Vonage for Xamarin.Forms</summary>
+    <tags>vonage, Vonage, videochat, video, chat, video streaming, tokbox, xamarin forms, audio</tags>
+    <dependencies>
+      <group>
+        <dependency id="Xamarin.Forms" version="5.0.0.2012" />
+      </group>
+      <group targetFramework="Xamarin.iOS10">
+        <dependency id="Xamarin.Vonage.iOS" version="2.19.1" />
+      </group>
+      <group targetFramework="MonoAndroid10">
+        <dependency id="Xamarin.Vonage.Android" version="2.19.0" />
+        <dependency id="Plugin.CurrentActivity" version="2.1.0.4" />
+      </group>
+      <group targetFramework="netstandard10" />
+      <group targetFramework="netstandard20" />
+    </dependencies>
+    <releaseNotes>
+    </releaseNotes>
+  </metadata>
+  <files>
+    <!--Icon-->
+    <file src="images\logo.png" target="images\" />
+    <!--Net Standard1.0-->
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard1.0\Xamarin.Forms.Vonage.dll" target="lib\netstandard1.0\Xamarin.Forms.Vonage.dll" />
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard1.0\Xamarin.Forms.Vonage.pdb" target="lib\netstandard1.0\Xamarin.Forms.Vonage.pdb" />
+
+    <!--Net Standard2.0-->
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard2.0\Xamarin.Forms.Vonage.dll" target="lib\netstandard2.0\Xamarin.Forms.Vonage.dll" />
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard2.0\Xamarin.Forms.Vonage.pdb" target="lib\netstandard2.0\Xamarin.Forms.Vonage.pdb" />
+
+    <!--Xamarin.Android-->
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard2.0\Xamarin.Forms.Vonage.dll" target="lib\MonoAndroid10\Xamarin.Forms.Vonage.dll" />
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard2.0\Xamarin.Forms.Vonage.pdb" target="lib\MonoAndroid10\Xamarin.Forms.Vonage.pdb" />
+    <file src="Lib\Xamarin.Forms.Vonage.Android\bin\Release\Xamarin.Forms.Vonage.Android.dll" target="lib\MonoAndroid10\Xamarin.Forms.Vonage.Android.dll" />
+    <file src="Lib\Xamarin.Forms.Vonage.Android\bin\Release\Xamarin.Forms.Vonage.Android.pdb" target="lib\MonoAndroid10\Xamarin.Forms.Vonage.Android.pdb" />
+
+    <!--Xamarin.iOS-->
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard2.0\Xamarin.Forms.Vonage.dll" target="lib\Xamarin.iOS10\Xamarin.Forms.Vonage.dll" />
+    <file src="Lib\Xamarin.Forms.Vonage\bin\Release\netstandard2.0\Xamarin.Forms.Vonage.pdb" target="lib\Xamarin.iOS10\Xamarin.Forms.Vonage.pdb" />
+    <file src="Lib\Xamarin.Forms.Vonage.iOS\bin\Release\Xamarin.Forms.Vonage.iOS.dll" target="lib\Xamarin.iOS10\Xamarin.Forms.Vonage.iOS.dll" />
+    <file src="Lib\Xamarin.Forms.Vonage.iOS\bin\Release\Xamarin.Forms.Vonage.iOS.pdb" target="lib\Xamarin.iOS10\Xamarin.Forms.Vonage.iOS.pdb" />
+  </files>
+</package>
